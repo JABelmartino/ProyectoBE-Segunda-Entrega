@@ -9,8 +9,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'));
 
+//
 
-const arrayCarrito = []
 //traer todo lo que hay un carrito
 routerCarrito.get('/', async (req, res) => {
     const agregado = await contenedor2.getCarrito()
