@@ -2,8 +2,9 @@ const express = require('express')
 const { Router } = express
 const Contenedor = require("../contenedores/contenedorArchivo");
 const contenedor = new Contenedor('../database/productos.json')
+const DaoProductoArchivo = require('../daos/daoproductosarchivo.js')
 
-
+const daoproductoarchivo = DaoProductoArchivo()
 
 const app = express()
 const routerProductos = Router()
@@ -14,12 +15,12 @@ app.use(express.static('public'));
 
 ///-Productos-///
 routerProductos.get('/', async (req, res) => {
-    const productos = await contenedor.getProductos()
+    const productos = await daoproductoarchivo.getProductos()
     res.json({ 
     productos    
     }) 
 })
-
+/*
 routerProductos.get('/:id', async (req, res) => {
     const {id} = req.params
     const elegido = await contenedor.getId(id)
@@ -56,7 +57,7 @@ routerProductos.delete('/:id',async (req, res) => {
            borrado
         })
 })
-
+*/
 
 
 module.exports = routerProductos

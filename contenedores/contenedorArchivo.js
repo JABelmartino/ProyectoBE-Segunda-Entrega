@@ -2,13 +2,13 @@ const fs = require('fs');
 const administrador = true
 
 class Contenedor{
-    constructor(ruta){
-        this.ruta = ruta
+    constructor(){
+       
         
     }
     async getProductos(){
         try{
-            let dataArchivo = await fs.promises.readFile((__dirname,'/database/productos.json'), 'utf-8')
+            let dataArchivo = await fs.promises.readFile((__dirname,'database/productos.json'), 'utf-8')
             console.log(dataArchivo)
             let dataArchivoParse = JSON.parse(dataArchivo)
             let producto = dataArchivoParse
