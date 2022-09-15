@@ -1,34 +1,32 @@
-const fs = require('fs');
-const administrador = true
+const Productos = require('../models/ecommerce.js')
+const connectionDB = require('../config.js')
+
+
+connectionDB()
 
 class Contenedor{
     constructor(){
-       
+      
     }
     
     async getProductos(){
         try{
-            let dataArchivo = await fs.promises.readFile((__dirname,'database/productos.json'), 'utf-8')
-            console.log(dataArchivo)
-            let dataArchivoParse = JSON.parse(dataArchivo)
-            let producto = dataArchivoParse
-            if(producto){
-                return producto               
-            }else{
-                console.log('No se encontro')
-            }
+            const productos = await Productos.find()
+            console.log(productos)
 
         }catch(error){
             console.log(error)
         }
     }
+
+    /*
     //Agrega un producto al listado
     async postProducto(producto){
         if(administrador == true){
         try{
-           console.log(producto)
-            let dataArchivo  = await fs.promises.readFile((__dirname,'database/productos.json'), 'utf-8')
-            let dataArchivoParse = JSON.parse(dataArchivo)
+            const productos = await Productos.find()
+            console.log(productos)
+
             producto.id = dataArchivoParse.length+1
             producto.time = new Date()
             if(dataArchivoParse.length){
@@ -235,7 +233,7 @@ class Contenedor{
            }catch(error){
             console.log(error)
         }
-    }
+    }*/
 }
 
 module.exports = Contenedor

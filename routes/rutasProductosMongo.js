@@ -1,7 +1,7 @@
 const express = require('express')
 const { Router } = express
-const DaoProductoArchivo = require('../daos/daoproductosarchivo.js')
-const daoproductoarchivo =  new DaoProductoArchivo()
+const DaoProductoMongo = require('../daos/daoproductosmongo.js')
+const daoproductomongo =  new DaoProductoMongo()
 
 const app = express()
 const routerProductos = Router()
@@ -11,14 +11,18 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'));
 
 ///-Productos-///
+const connectionDB = require('../config.js')
+
+
+connectionDB()
 
 routerProductos.get('/', async (req, res) => {
-    const productos = await daoproductoarchivo.getProductos()
+    const productos = await daoproductomongo.getProductos()
     res.json({ 
     productos    
     }) 
 })
-/*
+
 routerProductos.get('/:id', async (req, res) => {
     const {id} = req.params
     const elegido = await daoproductoarchivo.getId(id)
@@ -56,6 +60,6 @@ routerProductos.delete('/:id',async (req, res) => {
         })
 })
 
-*/
+
 
 module.exports = routerProductos
