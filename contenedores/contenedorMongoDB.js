@@ -101,7 +101,7 @@ class Contenedor{
             const carritoApuntado = Carrito.find(prod => prod.id_carrito == id_carrito)
             const carritoDestino = carritoApuntado.productos
             objindex.time = new Date()
-            const obj = carritoDestino.push(objindex) 
+            
             let nuevoCarritoProductos = new CarritoProductos({
                 title: `${objindex.title}`,
                 price: `${objindex.price}`,
@@ -125,26 +125,14 @@ class Contenedor{
             })
             const [arrayArreglado] = objetos
             let finalBorrado = await arrayArreglado.filter(cart => cart.id == ids.id)
-            
-            let ProductoBorrado = await Carrito.find({ productos: {id: 2}})
+            let numeroId = ids.id
+            let ProductoBorrado = await Carrito.updateMany({ "productos.id": {$eq: numeroId }},{$unset: {productos: ""}})
             console.log(ProductoBorrado)
         } catch (error) {
             console.log(error)
         }
     }
-    async updateProductoCarrito(ids){
-        try {
-            let carritoBorrado = await Carrito.find({id_carrito: `${ids.id_carrito}`})
-            let objetos = await carritoBorrado.map(function(productos,carritoBorrado ){
-             return(productos.productos)
-            })
-            const [arrayArreglado] = objetos
-            let finalBorrado = await arrayArreglado.filter(cart => cart.id == ids.id)
-            let productosActualizado = await finalBorrado.updateOne({ })
-        } catch (error) {
-            console.log(error)
-        }
-    }
+
 
 }
 

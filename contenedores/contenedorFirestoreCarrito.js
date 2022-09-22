@@ -18,7 +18,7 @@ class Contenedor{
     const queryRead = await query.get()
     const respuesta = queryRead.docs.map(document => ({id: document.id, ...document.data()}))
     console.log(respuesta.length)
-    let id_carrito = respuesta.length + 1
+    let id_carrito = respuesta.length + 2
     const doc = query.doc(`${id_carrito}`)
     await doc.create({
       id_carrito: id_carrito,
@@ -79,14 +79,17 @@ class Contenedor{
       const respuesta = queryRead.docs.map(document => ({id_carrito: document.id_carrito, ...document.data()}))
       const carritoDestino = respuesta.find(cart => cart.id_carrito == direcciones.id_carrito)
       const productos = carritoDestino.productos
+      console.log(productos)
       let id = productos.length + 1
-      const doc = query.doc(`${id}`)
-      await doc.ref('carritos/"id_carritos"/productos').create({
+      const doc = query.doc(`${carritoDestino}`)
+      await doc.update({
+       productos:{
         title: `${productoAgregado.title}`,
         precio: `${productoAgregado.precio}`,
         description: `${productoAgregado.description}`,
         stock: `${productoAgregado.stock}`,
         id: id
+      }
       })
       console.log("producto creado")
   } catch (error) {

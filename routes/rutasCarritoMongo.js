@@ -32,7 +32,7 @@ routerCarrito.get('/:id', async (req, res) => {
     }
 })
 //Agrega un producto al carrito
-routerCarrito.post('/', async (req, res) => {
+routerCarrito.post('/id_carrito/productos/:id', async (req, res) => {
     const {id, id_carrito} = req.params
     const agregado = await contenedor.crearCarrito(id, id_carrito)
     res.json({ 
@@ -41,8 +41,9 @@ routerCarrito.post('/', async (req, res) => {
 })
 //Actualiza producto
 routerCarrito.put('/:id', (req, res) => {
+    let {id} = req.params
     const {title,price,thumbnail,description,stock} = req.body
-    const obj = {title,price,thumbnail,description,stock}
+    const obj = {id,title,price,thumbnail,description,stock}
     const actualizado = contenedor.updateById(obj)
     res.json({
         actualizado
@@ -57,7 +58,7 @@ routerCarrito.delete('/:id',async (req, res) => {
         })
 })
 
-routerCarrito.get('/:id_carrito/productos/:id',async (req, res) => {
+routerCarrito.delete('/:id_carrito/productos/:id',async (req, res) => {
     const {id, id_carrito} = req.params
     const ids = {id_carrito, id}
     const borrado = await contenedor.deleteProductoCarrito(ids)   

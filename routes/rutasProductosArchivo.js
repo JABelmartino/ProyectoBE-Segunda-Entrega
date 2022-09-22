@@ -18,7 +18,7 @@ routerProductos.get('/', async (req, res) => {
     productos    
     }) 
 })
-/*
+
 routerProductos.get('/:id', async (req, res) => {
     const {id} = req.params
     const elegido = await daoproductoarchivo.getId(id)
@@ -56,6 +56,6 @@ routerProductos.delete('/:id',async (req, res) => {
         })
 })
 
-*/
+
 
 module.exports = routerProductos
