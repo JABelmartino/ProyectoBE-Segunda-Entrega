@@ -3,7 +3,7 @@ const { Router } = express
 const Contenedor = require('../contenedores/contenedorMongoDB.js')
 const contenedor = new Contenedor
 const app = express()
-const routerProductos = Router()
+const routerCarrito = Router()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
@@ -15,14 +15,14 @@ const connectionDB = require('../config.js')
 
 connectionDB()
 
-routerProductos.get('/', async (req, res) => {
-    const productos = await contenedor.getProductos()
+routerCarrito.get('/', async (req, res) => {
+    const carrito = await contenedor.getCarrito()
     res.json({ 
-    productos    
+    carrito    
     }) 
 })
 
-routerProductos.get('/:id', async (req, res) => {
+routerCarrito.get('/:id', async (req, res) => {
     const {id} = req.params
     const elegido = await contenedor.getId(id)
     if(elegido){
@@ -31,19 +31,16 @@ routerProductos.get('/:id', async (req, res) => {
         return {error:'No existe'}
     }
 })
-
-
-//Agrega un producto al listado
-routerProductos.post('/', async (req, res) => {
-    const {title,price,thumbnail,description,stock} = req.body
-    const producto = {title,price,thumbnail,description,stock}
-    const agregado = await contenedor.postProducto(producto)
+//Agrega un producto al carrito
+routerCarrito.post('/', async (req, res) => {
+    const {id, id_carrito} = req.params
+    const agregado = await contenedor.crearCarrito(id, id_carrito)
     res.json({ 
         agregado
     }) 
 })
 //Actualiza producto
-routerProductos.put('/:id', (req, res) => {
+routerCarrito.put('/:id', (req, res) => {
     const {title,price,thumbnail,description,stock} = req.body
     const obj = {title,price,thumbnail,description,stock}
     const actualizado = contenedor.updateById(obj)
@@ -52,9 +49,18 @@ routerProductos.put('/:id', (req, res) => {
     })
 })
 
-routerProductos.delete('/:id',async (req, res) => {
+routerCarrito.delete('/:id',async (req, res) => {
     const {id} = req.params
-    const borrado = await contenedor.deleteById(id)   
+    const borrado = await contenedor.deleteCarrito(id)   
+    res.json({
+           borrado
+        })
+})
+
+routerCarrito.get('/:id_carrito/productos/:id',async (req, res) => {
+    const {id, id_carrito} = req.params
+    const ids = {id_carrito, id}
+    const borrado = await contenedor.deleteProductoCarrito(ids)   
     res.json({
            borrado
         })
@@ -62,4 +68,4 @@ routerProductos.delete('/:id',async (req, res) => {
 
 
 
-module.exports = routerProductos
+module.exports = routerCarrito

@@ -1,12 +1,15 @@
 const mongoose = require('mongoose')
 
-const ProductosSchema = new mongoose.Schema({
-    title: {
+const CarritosProductosSchema = new mongoose.Schema({
+title: {
     type: String,
-    required: true,
     trim: true,
-    max: 50,
-    
+    },
+    price: {
+        type: Number,
+        trim: true,
+        max: 50000,
+        
     },
     id: {
         type: Number,
@@ -15,34 +18,34 @@ const ProductosSchema = new mongoose.Schema({
         max: 50000,
         
     },
-    price: {
-        type: Number,
-        required: true,
-        trim: true,
-        max: 50000,
-        
-    },
     thumbnail: {
         type: String,
-        required: true,
         trim: true,
-        max: 500,
         
     },
     description: {
         type: String,
-        required: true,
         trim: true,
-        max: 500,
         
     },
     stock: {
         type: Number,
-        required: true,
         trim: true,
-        max: 500,
-        
     }
 })
+module.exports = mongoose.model('CarritoProductos', CarritosProductosSchema)
 
-module.exports = mongoose.model('Productos', ProductosSchema)
+const CarritosSchema = new mongoose.Schema({
+        id_carrito: {
+        type: Number,
+        }, 
+        productos: {
+        type: [CarritosProductosSchema],
+        },
+        time:{
+            type: Date,
+        }
+       
+})
+
+module.exports = mongoose.model('Carritos', CarritosSchema)

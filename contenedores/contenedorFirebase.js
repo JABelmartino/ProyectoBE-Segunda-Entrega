@@ -2,7 +2,6 @@ const Productos = require('../models/ecommerce.js')
 const Carrito = require('../models/ecommerceCarrito.js')
 const connectionDB = require('../config.js')
 const { timeStamp } = require('console')
-const { updateOne } = require('../models/ecommerce.js')
 
 
 connectionDB()
@@ -120,27 +119,21 @@ class Contenedor{
     async deleteProductoCarrito(ids){
         try {
             let carritoBorrado = await Carrito.find({id_carrito: `${ids.id_carrito}`})
-            let objetos = await carritoBorrado.map(function(productos,carritoBorrado ){
+            let objetos = await carritoBorrado.map(function(productos){
              return(productos.productos)
             })
-            const [arrayArreglado] = objetos
-            let finalBorrado = await arrayArreglado.filter(cart => cart.id == ids.id)
-            
-            let ProductoBorrado = await Carrito.find({ productos: {id: 2}})
-            console.log(ProductoBorrado)
+            console.log(objetos)
+            let finalBorrado = await objetos.filter(cart => cart.id !== ids.id)
+           
+        //let ProductoBorrado = await Carrito.deleteOne({ id: `${objetos.id}`})
         } catch (error) {
             console.log(error)
         }
     }
     async updateProductoCarrito(ids){
         try {
-            let carritoBorrado = await Carrito.find({id_carrito: `${ids.id_carrito}`})
-            let objetos = await carritoBorrado.map(function(productos,carritoBorrado ){
-             return(productos.productos)
-            })
-            const [arrayArreglado] = objetos
-            let finalBorrado = await arrayArreglado.filter(cart => cart.id == ids.id)
-            let productosActualizado = await finalBorrado.updateOne({ })
+            let carritoActualizado = await Carrito.updateOne({})
+            console.log(carritoActualizado)
         } catch (error) {
             console.log(error)
         }

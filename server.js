@@ -1,13 +1,20 @@
 const express = require('express')
 const { Router } = express
-const connectionDB = require('./config.js')
 
-connectionDB()
+//Conexion Mongo
+/*const connectionDB = require('./config.js')
+connectionDB()*/
 
 const app = express()
-const routerProductos = require('./routes/rutasProductosMongo.js')
 
-const routerCarrito = require('./routes/rutasCarritoArchivo.js')
+//Rutas Firebase
+const routerProductos = require('./routes/rutasProductosFirebase.js')
+const routerCarrito = require('./routes/rutasFirestoreCarrito.js')
+
+
+//Rutas Mongo
+//const routerProductos = require('./routes/rutasProductosMongo.js')
+//const routerCarrito = require('./routes/rutasCarritoMongo.js')
 
 
 app.use(express.json())
